@@ -16,3 +16,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.standard-image {
+    width: 100%;
+    max-width: 200px; /* Example max width */
+    height: auto; /* Maintains aspect ratio */
+}
