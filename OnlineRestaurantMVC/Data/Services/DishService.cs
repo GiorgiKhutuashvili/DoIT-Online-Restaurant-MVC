@@ -1,5 +1,9 @@
 ﻿using OnlineRestaurantMVC.Models;
 using OnlineRestaurantMVC.Data.Base;
+using OnlineRestaurantMVC.Data.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using OnlineRestaurantMVC.Data.Enums;
+using System.Xml.Linq;
 
 namespace OnlineRestaurantMVC.Data.Services
 {
@@ -20,13 +24,37 @@ namespace OnlineRestaurantMVC.Data.Services
         {
             return await _dishRepository.GetByIdAsync(id);
         }
-        public async Task AddDishAsync(Dish dish)
+        public async Task AddDishAsync(NewDishVM dish)
         {
-            await _dishRepository.AddAsync(dish);
+            var newDish = new Dish
+            {
+                Name = dish.Name,
+                Description = dish.Description,
+                Price = dish.Price,
+                DishCategory = dish.DishCategory,
+                IsNutty = dish.IsNutty,
+                IsVegetarian = dish.IsVegetarian,
+                PepperLevel = dish.PepperLevel,
+                ImageURL = dish.ImageURL
+            };
+            await _dishRepository.AddAsync(newDish);
         }
-        public async Task UpdateDishAsync(Dish dish)
+        public async Task UpdateDishAsync(NewDishVM dish)
         {
-            await _dishRepository.UpdateAsync(dish);
+            var dbDish = await _dishRepository.GetByIdAsync(dish.Id);
+
+            if (dbDish != null)
+            {
+                dbDish.Name = dish.Name;
+                dbDish.Description = dish.Description;
+                dbDish.Price = dish.Price;
+                dbDish.DishCategory = dish.DishCategory;
+                dbDish.IsNutty = dish.IsNutty;
+                dbDish.IsVegetarian = dish.IsVegetarian;
+                dbDish.PepperLevel = dish.PepperLevel;
+                dbDish.ImageURL = dish.ImageURL;
+                await _dishRepository.UpdateAsync(dbDish);
+            }
         }
         public async Task DeleteDishAsync(int id)
         {

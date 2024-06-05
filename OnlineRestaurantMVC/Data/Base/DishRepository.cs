@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using OnlineRestaurantMVC.Models;
 using System.Linq.Expressions;
 
@@ -42,16 +43,5 @@ namespace OnlineRestaurantMVC.Data.Base
         {
             return await _context.Set<Dish>().FindAsync(id) != null;
         }
-
-
-        //public Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includeProperties)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

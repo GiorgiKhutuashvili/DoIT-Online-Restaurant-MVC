@@ -1,0 +1,108 @@
+﻿@using OnlineRestaurantMVC.Data.ViewModels
+@using OnlineRestaurantMVC.Data.Enums
+@using OnlineRestaurantMVC.Data;
+ 
+@model NewDishVM
+
+@{
+    ViewData["Title"] = "Update dish";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4>Update Dish</h4>
+        </p>
+
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Edit" asp-route-id="@Model.Id">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label">Name:</label>
+                                <input asp-for="Name" class="form-control" required />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Price" class="control-label">Price:</label>
+                                <input asp-for="Price" type="number" class="form-control" min="0" step="0.01" required />
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="DishCategory" class="control-label">Dish Category:</label>
+                                <select asp-for="DishCategory" class="form-control" asp-items="Html.GetEnumSelectList<DishCategory>()" required>
+                                    <option value="">Select a category</option>
+                                </select>
+                                <span asp-validation-for="DishCategory" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PepperLevel" class="control-label">Pepper Level:</label>
+                                <select asp-for="PepperLevel" class="form-control" asp-items="Html.GetEnumSelectList<PepperLevel>()" required>
+                                    <option value="">Select a level</option>
+                                </select>
+                                <span asp-validation-for="PepperLevel" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <fieldset>
+                            <div class="form-group form-check">
+                                <input asp-for="IsNutty" type="checkbox" class="form-check-input" />
+                                <label asp-for="IsNutty" class="form-check-label">Contains Nutts</label>
+                                <span asp-validation-for="IsNutty" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-check">
+                                <input asp-for="IsVegetarian" type="checkbox" class="form-check-input" />
+                                <label asp-for="IsVegetarian" class="form-check-label">Vegetarian</label>
+                                <span asp-validation-for="IsVegetarian" class="text-danger"></span>
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <label asp-for="ImageURL" class="control-label">Image URL:</label>
+                            <input asp-for="ImageURL" class="form-control" type="url" required />
+                            <span asp-validation-for="ImageURL" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label">Description:</label>
+                                <textarea asp-for="Description" class="form-control" rows="3" required></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 offset-4 text-center">
+                        <img width="100%" id="ImageUrlPreview" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById("ImageUrlPreview");
+            output.src = $("#ImageURL").val();
+        });
+
+        $("#ImageURL").on("change", function () {
+            var output = document.getElementById("ImageUrlPreview");
+            output.src = $(this).val();
+        })
+    </script>
+}

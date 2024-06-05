@@ -35,12 +35,10 @@
 
                     </ul>
 
-                    <div class="row">
-                        <div class="input-group mb-3">
-                            <input name="searchString" type="text" class="form-control form-control-lg search-box" placeholder="Search for a dish..." aria-label="Search term">
-                            <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
-                        </div>
-                    </div>
+                    <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Dishes" asp-action="Filter" style="padding-right: 25px;">
+                        <input name="searchString" type="text" class="form-control mr-2" placeholder="Search for a dish..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
 
                 </div>
             </div>

@@ -11,9 +11,5 @@ namespace OnlineRestaurantMVC.Data.Base
         Task UpdateAsync(Dish dish);
         Task DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
-
-        //Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);
-        
-        //Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includeProperties);
     }
 }
