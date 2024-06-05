@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineRestaurantMVC.Data;
+using OnlineRestaurantMVC.Data.Base;
+using OnlineRestaurantMVC.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
+builder.Services.AddScoped<IDishRepository, DishRepository>();
+builder.Services.AddScoped<IDishService, DishService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

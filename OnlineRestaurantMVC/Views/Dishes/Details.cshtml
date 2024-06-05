@@ -1,0 +1,85 @@
+﻿@model Dish
+
+@{
+    ViewData["Title"] = "Dish Details";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <div class="card mb-12">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header text-white bg-info">
+                        <p class="card-text">
+                            <h5 class="card-title">
+                                @Model.Name
+                            </h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="@Model.ImageURL" width="100%" alt="@Model.Name">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="card-text">@Model.Description</p>
+                        <p class="card-text ">
+                            <b>Pepper Level: </b>
+                            @switch(Model.PepperLevel)
+                            {
+                                case OnlineRestaurantMVC.Data.Enums.PepperLevel.None:
+                                    <span class="badge bg-success text-white">Dish Is Not Spicy</span>
+                                    break;
+                                case OnlineRestaurantMVC.Data.Enums.PepperLevel.Low:
+                                    <span class="badge bg-success text-white">Dish Spiciness  Level is Low</span>
+                                    break;
+                                case OnlineRestaurantMVC.Data.Enums.PepperLevel.Medium:
+                                    <span class="badge bg-success text-white">Dish Spiciness Level is Medium</span>
+                                    break;
+                                case OnlineRestaurantMVC.Data.Enums.PepperLevel.High:
+                                    <span class="badge bg-success text-white">Dish Spiciness Level is High</span>
+                                    break;
+                            }
+                        </p>
+                        <p class="card-text ">
+                            <b>Nut Options: </b>
+                            @if (Model.IsNutty)
+                            {
+                                <span class="badge bg-success text-white">Dish Contains Nutts</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary text-white">Dish Does Not Contain Nutts</span>
+                            }
+                        </p>
+                        <p class="card-text ">
+                            <b>Vegetarian Options: </b>
+                            @if (Model.IsVegetarian)
+                            {
+                                <span class="badge bg-success text-white">Dish Is Vegetarian</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary text-white">Dish Is Not Vegetarian</span>
+                            }
+                        </p>
+                        <p class="card-text"><b>Category: </b>@Model.DishCategory</p>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-footer">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary float-right" asp-action="Index">
+                                Back to List
+                            </a>
+                            <a class="btn btn-success text-white" 
+                               asp-controller="Orders" 
+                               asp-action="AddItemToCart" asp-route-id="@Model.Id"><i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
