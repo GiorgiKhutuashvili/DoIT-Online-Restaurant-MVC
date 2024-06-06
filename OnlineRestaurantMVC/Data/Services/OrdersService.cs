@@ -10,9 +10,13 @@ namespace OnlineRestaurantMVC.Data.Services
         {
             _context = context;
         }
-        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId)
+        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId = null)
         {
-            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Dish).Include(n => n.UserId == userId).ToListAsync();
+            var orders = await _context.Orders
+                .Include(order => order.OrderItems)
+                .ThenInclude(orderItem => orderItem.Dish)
+                .ToListAsync();
+
             return orders;
         }
 

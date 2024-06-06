@@ -26,15 +26,8 @@ namespace OnlineRestaurantMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var items = _foodBasket.GetFoodBasketItems();
-            _foodBasket.FoodBasketItems = items;
-            var response = new FoodBasketVM()
-            {
-                FoodBasket = _foodBasket,
-                FoodBasketTotal = _foodBasket.GetFoodBasketTotal()
-            };
-
-            return View(response);
+            var orders = await _ordersService.GetOrdersByUserIdAndRoleAsync("");
+            return View(orders);
         }
         public IActionResult FoodBasket()
         {
