@@ -21,18 +21,11 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index"><i class="bi bi-film"></i> Dishes</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Dishes" asp-action="Index"><i class="bi bi-egg-fried"></i> Dishes</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-gear"></i> Management
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="Dishes" asp-action="Index"><i class="bi bi-camera-reels"></i> Dishes</a>
-                            </div>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index"><i class="bi bi-cart"></i> Orders</a>
                         </li>
-
                     </ul>
 
                     <form class="form-inline my-2 my-lg-0 d-flex" asp-controller="Dishes" asp-action="Filter" style="padding-right: 25px;">

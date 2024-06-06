@@ -1,5 +1,7 @@
 ﻿using OnlineRestaurantMVC.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using OnlineRestaurantMVC.Data.Static;
 
 namespace OnlineRestaurantMVC.Data
 {
@@ -120,6 +122,61 @@ namespace OnlineRestaurantMVC.Data
 
                     context.SaveChanges();
                 }
+            }
+        }
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+                #region admin
+                string adminUserEmail = "giorgix09@gmail.com";
+                var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+                if (adminUser == null)
+                {
+                    var newAdminUser = new ApplicationUser()
+                    {
+                        FullName = "Admin User",
+                        UserName = "admin-user",
+                        Email = adminUserEmail,
+                        EmailConfirmed = true
+                    };
+                    var result = await userManager.CreateAsync(newAdminUser, "123456");
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                    }
+                }
+                #endregion
+
+                #region standard user
+                string appUserEmail = "user@gmail.com";
+                var appUser = await userManager.FindByEmailAsync(appUserEmail);
+                if (appUser == null)
+                {
+                    var newAppUser = new ApplicationUser()
+                    {
+                        FullName = "Application User",
+                        UserName = "app-user",
+                        Email = appUserEmail,
+                        EmailConfirmed = true
+                    };
+                    var result = await userManager.CreateAsync(newAppUser, "123456");
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
+                    }
+                }
+                #endregion
             }
         }
     }

@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineRestaurantMVC.Data;
 using OnlineRestaurantMVC.Data.Base;
 using OnlineRestaurantMVC.Data.Basket;
 using OnlineRestaurantMVC.Data.Services;
+using OnlineRestaurantMVC.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +15,14 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 builder.Services.AddScoped<IDishRepository, DishRepository>();
 builder.Services.AddScoped<IDishService, DishService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
-
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(fb => FoodBasket.GetFoodBasket(fb));
 
+//Authentication and authorization
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddAuthentication(options => options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme);
 
 builder.Services.AddControllersWithViews();
 
@@ -37,6 +43,9 @@ app.UseRouting();
 
 app.UseSession();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -44,5 +53,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 AppDbInitializer.Seed(app);
+AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 
 app.Run();
