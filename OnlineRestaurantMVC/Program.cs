@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineRestaurantMVC.Data;
 using OnlineRestaurantMVC.Data.Base;
+using OnlineRestaurantMVC.Data.Basket;
 using OnlineRestaurantMVC.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,12 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 
 builder.Services.AddScoped<IDishRepository, DishRepository>();
 builder.Services.AddScoped<IDishService, DishService>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(fb => FoodBasket.GetFoodBasket(fb));
+
+builder.Services.AddSession();
 
 builder.Services.AddControllersWithViews();
 
@@ -27,6 +34,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

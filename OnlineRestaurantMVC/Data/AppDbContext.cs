@@ -11,5 +11,8 @@ namespace OnlineRestaurantMVC.Data
         }
 
         public DbSet<Dish> Dishes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<FoodBasketItem> FoodBasketItems { get; set; }
     }
 }
